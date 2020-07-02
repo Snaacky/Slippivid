@@ -6,11 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>SlipVid · 404</title>
+  <title>SlipVid · Queue</title>
 
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-  
 </head>
 
 <body class="d-flex h-100 text-center text-white bg-green">
@@ -28,12 +27,7 @@
 
     <main class="px-3">
       <h1>404</h1>
-      {% if range(0, 1000001) | random == 1000000 %}
-      <p class="lead">the file is a lie (the cake is too (im so awesome for thinking of this))</p>
-      {% else %}
-      <p class="lead">file not found</p>
-      {% endif %}
-
+      <p class="lead">{{ replay_id }}</p>
     </main>
 
     <footer class="mt-auto">

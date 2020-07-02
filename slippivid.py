@@ -41,6 +41,16 @@ def upload():
             return("File uploaded")
 
 
+@app.route("/queue/<replay_id>")
+def queue(replay_id):
+    return render_template("queue.htm", replay_id=replay_id)
+
+
+@app.route("/replay/<replay_id>")
+def replay(replay_id):
+    return render_template("replay.htm", replay_id=replay_id)
+
+
 @app.errorhandler(404)
 def file_not_found(error_code):
     return render_template('404.htm'), 404

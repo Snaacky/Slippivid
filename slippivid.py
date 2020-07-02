@@ -1,14 +1,20 @@
 import os
-import string
 import random
-from flask import Flask, redirect, render_template, request
+import string
+import sys
 
+import dataset
+from flask import Flask, redirect, render_template, request
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "change me"
 app.config["PORT"] = 3000
 app.config["DEBUG"] = True
 app.config["DOWNLOADS"] = "replays/"
+db = dataset.connect('sqlite:///slippivid.db')
+
+processing_queue = []
+current_queue_item = None
 
 
 @app.route("/")
@@ -35,14 +41,21 @@ def upload():
 
         if file:
             # TODO: Add check to make sure the file doesn't exist
-            name = "".join(random.choice(string.ascii_letters) for char in range(10))
-            name = name + ".slp" 
-            file.save(os.path.join(app.config["DOWNLOADS"], name))
-            return("File uploaded")
+            replay_id = "".join(random.choice(string.ascii_letters) for char in range(10))
+            file.save(os.path.join(app.config["DOWNLOADS"], replay_id + ".slp" ))
+            return redirect(f"/queue/{replay_id}")
 
 
 @app.route("/queue/<replay_id>")
 def queue(replay_id):
+    table = db['replays']
+    results = table.find_one(replay_id=replay_id)
+    if results:
+        return "found"
+    else:
+        table.insert(dict(replay_id=replay_id, streamable=None, progress=None))
+        return "added"
+
     return render_template("queue.htm", replay_id=replay_id)
 
 

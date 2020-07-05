@@ -140,3 +140,7 @@ cython_debug/
 # Slippivid
 replays/
 slippivid.db
+com-*.json
+*.slp
+start_dolphin.bat
+FM-v5.9-Slippi-r18-Win/
